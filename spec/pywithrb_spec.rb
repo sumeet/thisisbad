@@ -5,26 +5,36 @@ describe "pywithrb" do
     File.open("poop.py", "w") { |f| f.write("def id(x): return x") }
   end
 
-  after(:all) do
-    File.delete("poop.py")
-  end
+  after(:each) { File.delete("poop.py") }
 
   it "raises an error when there's an exception" do
-    # XXX: Does not check to see if anything is printed.
+   output = ["Traceback (most recent call last):\e[39;49;00m\n  File ",
+             "\e[39;49;00m\e[36m\"<string>\"\e[39;49;00m, line ",
+             "\e[39;49;00m\e[34m1\e[39;49;00m, in ",
+             "\e[39;49;00m<module>\e[39;49;00m\n\e[31;01mNameError",
+             "\e[39;49;00m: \e[39;49;00mname 'idx' is not ",
+             "defined\e[39;49;00m\n"].join("")
+    STDOUT.should_receive(:puts).with(output)
     expect { Python::idx(123) }.to raise_exception(PythonError)
   end
 
   it "does not raise an error when there's no exception" do
-    Python::id(123).should == 1234
+    Python::id(123).should == 123
   end
+
+  it "still need to generalize to load any module"
 end
 
-describe JSONWithInt do
+describe JSONWithScalars do
   it "parses regular JSON stuff" do
-    JSONWithInt.parse({"blah" => 123}.to_json).should == {"blah" => 123}
+    JSONWithScalars.parse({"blah" => 123}.to_json).should == {"blah" => 123}
   end
 
-  it "parses ints" do
-    JSONWithInt.parse("123").should == 123
+  it "parses scalar ints" do
+    JSONWithScalars.parse("123").should == 123
+  end
+
+  it "parses scalar strings" do
+    JSONWithScalars.parse('"abc"').should == "abc"
   end
 end
