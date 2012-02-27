@@ -15,13 +15,11 @@ describe "pywithrb" do
              "\e[39;49;00m: \e[39;49;00mname 'idx' is not ",
              "defined\e[39;49;00m\n"].join("")
     STDOUT.should_receive(:puts).with(output)
-    expect { Python::idx(123) }.to raise_exception(PythonError)
+    expect { Python::poop.idx(123) }.to raise_exception(PythonError)
   end
 
   it "does not raise an error when there's no exception" do
-    Python::id(123).should == 123
+    Python::poop.id(123).should == 123
   end
-
-  it "still need to generalize to load any module"
 end
 
