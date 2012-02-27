@@ -1,3 +1,4 @@
 *.pyc
 poop.py
 *.swp
+.idea
