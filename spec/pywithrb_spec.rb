@@ -1,4 +1,4 @@
-require 'pywithrb'
+require "pywithrb"
 
 describe "pywithrb" do
   before(:each) do
