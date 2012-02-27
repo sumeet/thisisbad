@@ -16,7 +16,7 @@ module Python
         puts colorize_stack_trace(output)
         raise PythonError
       end
-      parse_output_to_ruby(output)
+      convert_to_ruby(output)
     end
 
     private
@@ -24,7 +24,7 @@ module Python
       %x[python -c 'import json ; from #{@name} import * ; \
                     args = json.loads("""#{args}""") ; \
                     print json.dumps(#{python_function_name}(*args))' \
-                    2>&1]
+                    2>&1].strip
     end
 
     def contains_python_stack_trace?(output)
@@ -35,8 +35,8 @@ module Python
       Shell.new.transact { echo(output) | pygmentize }.to_s
     end
 
-    def parse_output_to_ruby(output)
-      JSONWithScalars.parse(output.strip)
+    def convert_to_ruby(output)
+      JSONWithScalars.parse(output)
     end
   end
 
