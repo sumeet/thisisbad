@@ -1,6 +1,6 @@
-require "pywithrb"
+require "thisisbad"
 
-describe "pywithrb" do
+describe Python do
   before(:each) do
     File.open("python_module.py", "w") do |f|
       f.write("def add_one(x): return x + 1")
