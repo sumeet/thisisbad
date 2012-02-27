@@ -1,16 +1,8 @@
-require "json"
 require "shell"
 
+require "json_with_scalars"
+
 class PythonError < StandardError ; end
-
-class JSONWithScalars
-  def self.parse(json)
-    JSON.parse(%Q{[#{json}]}).first
-  end
-end
-
-
-Shell.def_system_command(:pygmentize, "pygmentize -l pytb")
 
 
 module Python
@@ -28,4 +20,7 @@ module Python
     end
     JSONWithScalars.parse(output.strip)
   end
+
+  private
+  Shell.def_system_command(:pygmentize, "pygmentize -l pytb")
 end
