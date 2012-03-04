@@ -21,7 +21,8 @@ module Python
 
     private
     def call_python(python_function_name, args)
-      %x[python -c 'import json ; from #{@name} import * ; \
+      %x[python -c 'import json ; \
+                    from #{@name} import * ; \
                     args = json.loads("""#{args}""") ; \
                     print json.dumps(#{python_function_name}(*args))' \
                     2>&1].strip
