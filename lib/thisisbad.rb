@@ -1,6 +1,6 @@
 require "shell"
 
-require "json_with_scalars"
+require_relative "./json_with_scalars"
 
 Shell.def_system_command(:pygmentize, "pygmentize -l pytb")
 
@@ -21,7 +21,7 @@ module Python
 
     private
     def call_python(python_function_name, args)
-      %x[python -c 'import json ; \
+      %x[python -c 'import #{FindsBestJSONModule.json_module} as json ; \
                     from #{@name} import * ; \
                     args = json.loads("""#{args}""") ; \
                     print json.dumps(#{python_function_name}(*args))' \
@@ -46,4 +46,14 @@ module Python
   end
 
   class PythonError < StandardError ; end
+
+  class FindsBestJSONModule
+    @@json_module = nil
+
+    def self.json_module
+      return @@json_module if @@json_module
+      has_simplejson = system("python -c 'import simplejson' > /dev/null 2>&1")
+      @@json_module = has_simplejson ? 'simplejson' : 'json'
+    end
+  end
 end

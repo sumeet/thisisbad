@@ -26,4 +26,3 @@ describe Python do
     Python::python_module.add_one(123).should == 124
   end
 end
-
