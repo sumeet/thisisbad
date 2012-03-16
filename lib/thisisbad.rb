@@ -48,12 +48,11 @@ module Python
   class PythonError < StandardError ; end
 
   class FindsBestJSONModule
-    @@json_module = nil
-
     def self.json_module
-      return @@json_module if @@json_module
-      has_simplejson = system("python -c 'import simplejson' > /dev/null 2>&1")
-      @@json_module = has_simplejson ? 'simplejson' : 'json'
+      @@json_module ||= begin
+        is_simplejson = system("python -c 'import simplejson' > /dev/null 2>&1")
+        is_simplejson ? "simplejson" : "json"
+      end
     end
   end
 end

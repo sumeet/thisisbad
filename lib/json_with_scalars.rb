@@ -5,4 +5,3 @@ class JSONWithScalars
     JSON.parse(%Q{[#{json}]}).first
   end
 end
-

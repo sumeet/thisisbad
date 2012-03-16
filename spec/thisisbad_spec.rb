@@ -10,12 +10,12 @@ describe Python do
   after(:each) { File.delete("python_module.py") }
 
   it "raises an error when there's an exception" do
-   output = ["Traceback (most recent call last):\e[39;49;00m\n  File ",
-             "\e[39;49;00m\e[36m\"<string>\"\e[39;49;00m, line ",
-             "\e[39;49;00m\e[34m1\e[39;49;00m, in ",
-             "\e[39;49;00m<module>\e[39;49;00m\n\e[31;01mNameError",
-             "\e[39;49;00m: \e[39;49;00mname 'idx' is not ",
-             "defined\e[39;49;00m\n"].join("")
+    output = ["Traceback (most recent call last):\e[39;49;00m\n  File ",
+              "\e[39;49;00m\e[36m\"<string>\"\e[39;49;00m, line ",
+              "\e[39;49;00m\e[34m1\e[39;49;00m, in ",
+              "\e[39;49;00m<module>\e[39;49;00m\n\e[31;01mNameError",
+              "\e[39;49;00m: \e[39;49;00mname 'idx' is not ",
+              "defined\e[39;49;00m\n"].join("")
     STDOUT.should_receive(:puts).with(output)
     expect do
       Python::python_module.idx(123)
